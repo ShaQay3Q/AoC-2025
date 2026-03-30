@@ -111,6 +111,76 @@ func TestPointAtAll(t *testing.T) {
 	}
 }
 
+func TestCountZerosDuringAllMoves(t *testing.T) {
+	tests := []struct {
+		name        string
+		start       int
+		inputs      []string
+		dial        int
+		expected    int
+	}{
+		{
+			name:     "example from puzzle part 2",
+			start:    50,
+			inputs:   []string{"L68","L30","R48","L5","R60","L55","L1","L99","R14","L82"},
+			dial:     100,
+			expected: 6, // 👈 from problem description
+		},
+		{
+			name:     "simple forward crossing",
+			start:    0,
+			inputs:   []string{"R10"},
+			dial:     10,
+			expected: 1, // hits 0 once (wrap)
+		},
+		{
+			name:     "no crossing",
+			start:    5,
+			inputs:   []string{"R3"},
+			dial:     10,
+			expected: 0,
+		},
+		{
+			name:     "backward crossing",
+			start:    1,
+			inputs:   []string{"L2"},
+			dial:     10,
+			expected: 1, // 1 → 0 → 9
+		},
+		{
+			name:     "multiple rotations",
+			start:    50,
+			inputs:   []string{"R1000"},
+			dial:     100,
+			expected: 10, // hits 0 every 100 steps
+		},
+		{
+			name:     "multiple instructions accumulating",
+			start:    0,
+			inputs:   []string{"R10", "R10"},
+			dial:     10,
+			expected: 2,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			position := tt.start
+			count := 0
+
+			for _, input := range tt.inputs {
+				steps := getTheInt(input)
+				forward := isForward(getTheFirstCharacter(input))
+
+				count += countZerosDuringMove(position, steps, tt.dial, forward)
+				position = pointAt(position, input, tt.dial)
+			}
+
+			require.Equal(t, tt.expected, count)
+		})
+	}
+}
+
 func TestCountZeroVisits(t *testing.T){
    tests := []struct {
 		position int
@@ -145,9 +215,13 @@ func TestCountZerosCrossedBackward(t *testing.T){
 	}{
 		{50, 68, 100, 1},
 		{50, 30, 100, 0},
-		{0, 99, 100, 1},
-		{0, 118, 100, 2},
+		{0, 99, 100, 0},
+		{99, 100, 100, 1 },
+		{0, 118, 100, 1},
 		{95, 5, 100, 0},
+		{50, 1000, 100, 10},  
+		{0, 100, 100, 0},  
+		{0, 200, 100, 1},  
 	}
 	for _, tt := range tests{
 		result := countZerosCrossedBackward(tt.position, tt.steps, tt.dial)
@@ -166,6 +240,10 @@ func TestCountZerosCrossedForward(t *testing.T){
 		{50, 30, 100, 0},
 		{0, 99, 100, 0},
 		{0, 1018, 100, 10},
+		{98, 1018, 100, 11},
+		{50, 1000, 100, 10},
+		{0, 100, 100, 0},  // R100 from 0 → lands on 0, handled by landed check
+		{0, 200, 100, 1},  // R200 from 0 → crosses 0 once during, lands on 0
 	}
 	for _, tt := range tests{
 		result := countZerosCrossedForward(tt.position, tt.steps, tt.dial)
@@ -180,11 +258,11 @@ func TestCountAllCrossedZeros(t *testing.T){
         expectation int
 		dial int
     }{
-        // {0, []string{"R1", "L2"}, 1, 10},
-        // {0, []string{"R1", "L2", "R2", "L2"}, 3, 10},
-		// {0, []string{"R1", "L2"}, 1, 100},
-		// {2, []string{"R1", "L2"}, 0, 10},
-		// {50, []string{"L68", "L30", "R48"}, 2, 100},
+        {0, []string{"R1", "L2"}, 1, 10},
+        {0, []string{"R1", "L2", "R2", "L2"}, 3, 10},
+		{0, []string{"R1", "L2"}, 1, 100},
+		{2, []string{"R1", "L2"}, 0, 10},
+		{50, []string{"L68", "L30", "R48"}, 2, 100},
 		{50, []string{"L68","L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"}, 6, 100},
 	}
 	for _, tt := range tests{
