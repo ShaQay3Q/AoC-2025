@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -127,4 +128,10 @@ func TestCountZeroVisits(t *testing.T){
 			count := countZeroVisits(tt.position, tt.inputs, tt.dial)
 			require.Equal(t, tt.expectation, count)
 		}
+}
+
+func TestReadFile(t *testing.T) {
+    lines := readFile("day01.txt")
+    require.Greater(t, len(lines), 0)  // at least one line was read
+    fmt.Println(lines[0])              // print first line to see what it looks like
 }

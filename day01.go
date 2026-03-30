@@ -1,12 +1,17 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strconv"
 )
 
 func main(){
 	fmt.Println("AoC-2025")
+	content := readFile("day01.txt")
+    result := countZeroVisits(50, content, 100)
+    fmt.Println(result)
 }
 
 func moveForward(initial_digit int,steps int, dial int) int{
@@ -50,6 +55,7 @@ func countZeroVisits(position int, inputs []string, dial int) int {
 	count := 0
 	for _, input := range inputs {
 		position = pointAt(position, input, dial)
+		// fmt.Println("input:", input, "→ position:", position)  // trace each step
 		if position == 0 {
 			count++
 		}
@@ -57,4 +63,20 @@ func countZeroVisits(position int, inputs []string, dial int) int {
 	return count
 }
 
+func readFile(filename string) []string {
+    file, err := os.Open(filename)
+    if err != nil {
+        panic(err)
+    }
+    defer file.Close()
 
+    var lines []string
+    scanner := bufio.NewScanner(file)
+    for scanner.Scan() {
+        line := scanner.Text()
+        if line != "" {  // skip empty lines
+            lines = append(lines, line)
+        }
+    }
+    return lines
+}
