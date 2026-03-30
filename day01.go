@@ -33,9 +33,11 @@ func getTheInt(input string) int {
 	return  num
 }
 
-// func pointAt(input string)int{
-// 	if isForward(getTheFirstCharacter(input)){
-// 		moveForward(0,)
-// 	}
-// 	return 1
-// }
+func pointAt(input string)int{
+	if isForward(getTheFirstCharacter(input)){
+		return moveForward(0,getTheInt(input))
+	}
+	return moveBackward(0,getTheInt(input))
+}
+
+
