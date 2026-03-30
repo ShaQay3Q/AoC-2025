@@ -135,3 +135,39 @@ func TestReadFile(t *testing.T) {
     require.Greater(t, len(lines), 0)  // at least one line was read
     fmt.Println(lines[0])              // print first line to see what it looks like
 }
+
+func TestCountZerosCrossedBackward(t *testing.T){
+	tests := []struct{
+		position int
+		steps int
+		dial int
+		expectation int
+	}{
+		{50, 68, 100, 1},
+		{50, 30, 100, 0},
+		{0, 99, 100, 1},
+		{0, 118, 100, 2},
+	}
+	for _, tt := range tests{
+		result := countZerosCrossedBackward(tt.position, tt.steps, tt.dial)
+		require.Equal(t, tt.expectation, result)
+	}
+}
+
+func TestCountZerosCrossedForward(t *testing.T){
+	tests := []struct{
+		position int
+		steps int
+		dial int
+		expectation int
+	}{
+		{50, 68, 100, 1},
+		{50, 30, 100, 0},
+		{0, 99, 100, 0},
+		{0, 1018, 100, 10},
+	}
+	for _, tt := range tests{
+		result := countZerosCrossedForward(tt.position, tt.steps, tt.dial)
+		require.Equal(t, tt.expectation, result)
+	}
+}

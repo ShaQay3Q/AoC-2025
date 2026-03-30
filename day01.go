@@ -63,6 +63,20 @@ func countZeroVisits(position int, inputs []string, dial int) int {
 	return count
 }
 
+func countZerosCrossedBackward(position int, steps int, dial int) int {
+	if steps > position {
+		return ((steps - position)/dial + 1)
+	}
+	return 0
+}
+
+func countZerosCrossedForward(position int, steps int, dial int) int {
+	return ((position + steps) / 100)
+}
+
+
+
+
 func readFile(filename string) []string {
     file, err := os.Open(filename)
     if err != nil {
@@ -80,3 +94,4 @@ func readFile(filename string) []string {
     }
     return lines
 }
+
