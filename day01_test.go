@@ -28,6 +28,21 @@ func TestMovingForward04(t *testing.T) {
 		require.Equal(t, 0, result)
 }
 
-func TestMovingForward(t *require.TestingT){
-	
+// a general testing functions for all the forward-going digit tests
+func TestMovingForward(t *testing.T){
+	tests := []struct{
+		position int
+		steps int
+		expectation int
+	}{
+		{0, 1, 1},
+        {0, 1, 1},
+        {1, 1, 2},
+        {9, 1, 0},
+	}
+	for _, tt := range tests{
+		result := moveForward(tt.position, tt.steps)
+		require.Equal(t, tt.expectation, result)
+	}
 }
+
