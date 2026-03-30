@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 )
 
 func main(){
@@ -25,3 +26,16 @@ func isForward(direction string) bool {
 func getTheFirstCharacter(input string)string{
 	return string(input[0])
 }
+
+func getTheInt(input string) int {
+	numStr := input[1:]
+	num, _ := strconv.Atoi(numStr)
+	return  num
+}
+
+// func pointAt(input string)int{
+// 	if isForward(getTheFirstCharacter(input)){
+// 		moveForward(0,)
+// 	}
+// 	return 1
+// }

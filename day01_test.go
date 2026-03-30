@@ -6,28 +6,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestMoveForward01(t *testing.T) {
-    // start at 0, move 1
-    result := moveForward(0, 1)
-		require.Equal(t, 1, result)
-}
-
-func TestMovingForward02(t *testing.T) {
-	result := moveForward(0, 1)
-		require.Equal(t, 1, result)
-}
-
-func TestMovingForward03(t *testing.T) {
-	result := moveForward(1, 1)
-		require.Equal(t, 2, result)
-}
-
-
-func TestMovingForward04(t *testing.T) {
-	result := moveForward(9, 1)
-		require.Equal(t, 0, result)
-}
-
 // a general testing functions for all the forward-going digit tests
 func TestMovingForward(t *testing.T){
 	tests := []struct{
@@ -44,25 +22,6 @@ func TestMovingForward(t *testing.T){
 		result := moveForward(tt.position, tt.steps)
 		require.Equal(t, tt.expectation, result)
 	}
-}
-
-
-func TestMoveBackward01(t *testing.T) {
-    // start at 0, move 1
-    result := moveBackward(1, 1)
-		require.Equal(t, 0, result)
-}
-
-func TestMoveBackward02(t *testing.T) {
-    // start at 0, move 1
-    result := moveBackward(2, 1)
-		require.Equal(t, 1, result)
-}
-
-func TestMoveBackward03(t *testing.T) {
-    // start at 0, move 1
-    result := moveBackward(0, 1)
-		require.Equal(t, 9, result)
 }
 
 func TestMoveBackward(t *testing.T){
@@ -86,16 +45,6 @@ func TestIsForward(t *testing.T) {
     require.True(t, result)
 }
 
-func TestGetTheFirstCharacter01(t *testing.T){
-	result := getTheFirstCharacter("R3")
-	require.Equal(t, "R", result)
-}
-
-func TestGetTheFirstCharacter02(t *testing.T){
-	result := getTheFirstCharacter("L3")
-	require.Equal(t, "L", result)
-}
-
 func TestGetTheFirstCharacter(t *testing.T){
 	tests :=[]struct{
 		input string
@@ -110,3 +59,31 @@ func TestGetTheFirstCharacter(t *testing.T){
 		}
 }
 
+func TestGetTheInt(t *testing.T){
+	tests := []struct{
+		input string
+		expectation int
+	}{
+		{"R3", 3},
+		{"R1", 1},
+		{"L6", 6},
+		{"L1", 1},
+	}
+	for _, tt := range tests {
+		result := getTheInt(tt.input)
+		require.Equal(t, tt.expectation, result)
+	}
+}
+
+
+// func TestPoinAt01(t *testing.T){
+// 	result := pointAt("R1")
+// 	require.Equal(t,1,result)
+// }
+
+
+
+// func TestPoinAt02(t *testing.T){
+// 	result := pointAt("R2")
+// 	require.Equal(t,2,result)
+// }
