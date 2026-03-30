@@ -17,3 +17,11 @@ func moveBackward(initial_digit int, steps int) int{
 	res := (10 + (initial_digit - steps)) % 10
 	return res
 }
+
+func isForward(direction string) bool {
+    return direction == "R"
+}
+
+func getTheFirstCharacter(input string)string{
+	return "R"
+}

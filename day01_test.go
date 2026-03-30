@@ -80,3 +80,13 @@ func TestMoveBackward(t *testing.T){
 		require.Equal(t, tt.expectation, result)
 	}
 }
+
+func TestIsForward(t *testing.T) {
+    result := isForward("R")
+    require.True(t, result)
+}
+
+func TestGetTheFirstCharacter(t *testing.T){
+	result := getTheFirstCharacter("R3")
+	require.Equal(t, "R", result)
+}
