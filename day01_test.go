@@ -86,7 +86,12 @@ func TestIsForward(t *testing.T) {
     require.True(t, result)
 }
 
-func TestGetTheFirstCharacter(t *testing.T){
+func TestGetTheFirstCharacter01(t *testing.T){
 	result := getTheFirstCharacter("R3")
 	require.Equal(t, "R", result)
+}
+
+func TestGetTheFirstCharacter02(t *testing.T){
+	result := getTheFirstCharacter("L3")
+	require.Equal(t, "L", result)
 }

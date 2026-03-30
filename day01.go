@@ -23,5 +23,5 @@ func isForward(direction string) bool {
 }
 
 func getTheFirstCharacter(input string)string{
-	return "R"
+	return string(input[0])
 }
