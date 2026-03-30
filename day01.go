@@ -9,6 +9,6 @@ func main(){
 }
 
 func moveForward(initial_digit int,move_by int) int{
-	res := initial_digit + move_by;
+	res := (initial_digit + move_by)%10;
 	return res
 }

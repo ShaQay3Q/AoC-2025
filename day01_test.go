@@ -27,3 +27,7 @@ func TestMovingForward04(t *testing.T) {
 	result := moveForward(9, 1)
 		require.Equal(t, 0, result)
 }
+
+func TestMovingForward(t *require.TestingT){
+	
+}
