@@ -95,3 +95,18 @@ func TestGetTheFirstCharacter02(t *testing.T){
 	result := getTheFirstCharacter("L3")
 	require.Equal(t, "L", result)
 }
+
+func TestGetTheFirstCharacter(t *testing.T){
+	tests :=[]struct{
+		input string
+		expectation string
+	}{
+		{"R3", "R"},
+		{"L3", "L"},
+	}
+			for _, tt := range tests{
+			result := getTheFirstCharacter(tt.input)
+			require.Equal(t, tt.expectation, result)
+		}
+}
+
