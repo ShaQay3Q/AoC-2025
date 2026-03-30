@@ -46,3 +46,37 @@ func TestMovingForward(t *testing.T){
 	}
 }
 
+
+func TestMoveBackward01(t *testing.T) {
+    // start at 0, move 1
+    result := moveBackward(1, 1)
+		require.Equal(t, 0, result)
+}
+
+func TestMoveBackward02(t *testing.T) {
+    // start at 0, move 1
+    result := moveBackward(2, 1)
+		require.Equal(t, 1, result)
+}
+
+func TestMoveBackward03(t *testing.T) {
+    // start at 0, move 1
+    result := moveBackward(0, 1)
+		require.Equal(t, 9, result)
+}
+
+func TestMoveBackward(t *testing.T){
+	tests := []struct{
+		position int
+		steps int
+		expectation int
+	}{
+		{1, 1, 0},
+        {2, 1, 1},
+        {0, 1, 9},
+	}
+	for _, tt := range tests{
+		result := moveBackward(tt.position, tt.steps)
+		require.Equal(t, tt.expectation, result)
+	}
+}
