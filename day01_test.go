@@ -75,19 +75,6 @@ func TestGetTheInt(t *testing.T){
 	}
 }
 
-
-func TestPoinAt01(t *testing.T){
-	result := pointAt("R1")
-	require.Equal(t,1,result)
-}
-
-
-
-func TestPoinAt02(t *testing.T){
-	result := pointAt("R2")
-	require.Equal(t,2,result)
-}
-
 func TestPoinAt(t *testing.T){
 	tests := []struct{
 		input string
@@ -99,7 +86,13 @@ func TestPoinAt(t *testing.T){
 		{"L1", 9},
 	}
 	for _, tt := range tests {
-		result := pointAt(tt.input)
+		result := pointAt(0, tt.input)
 		require.Equal(t, tt.expectation, result)
 	}
+}
+
+func TestPointAtAll(t *testing.T) {
+    inputs := []string{"R1", "L4", "L5", "R6"}
+    result := pointAtAll(inputs)
+    require.Equal(t, 8, result)
 }

@@ -33,11 +33,17 @@ func getTheInt(input string) int {
 	return  num
 }
 
-func pointAt(input string)int{
+func pointAt(position int, input string)int{
 	if isForward(getTheFirstCharacter(input)){
-		return moveForward(0,getTheInt(input))
+		return moveForward(position,getTheInt(input))
 	}
-	return moveBackward(0,getTheInt(input))
+	return moveBackward(position,getTheInt(input))
 }
 
-
+func pointAtAll(inputs []string) int {
+	position := 0
+	for _, input := range inputs {
+		position = pointAt(position, input)
+	}
+	return position
+}
