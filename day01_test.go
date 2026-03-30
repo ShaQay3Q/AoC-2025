@@ -171,3 +171,27 @@ func TestCountZerosCrossedForward(t *testing.T){
 		require.Equal(t, tt.expectation, result)
 	}
 }
+
+// func TestCountAllCrossedZeros(t *testing.T){
+// 	tests := []struct {
+// 		position int
+//         inputs      []string
+//         expectation int
+// 		dial int
+//     }{
+//         // {0, []string{"R1", "L2"}, 1, 10},
+//         // {0, []string{"R1", "L2", "R2", "L2"}, 3, 10},
+// 		// {0, []string{"R1", "L2"}, 1, 100},
+// 		// {2, []string{"R1", "L2"}, 0, 10},
+// 		{50, []string{"L68","L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"}, 6, 100},
+// 	}
+// 	for _, tt := range tests{
+// 		// for _, entry := range tt.inputs{
+// 		// 	if isForward(entry){
+// 		// 		coun
+// 		// 	}
+// 		// }
+// 		result := countAllCrossedZeros(tt.position, tt.inputs, tt.dial)
+// 		require.Equal(t, tt.expectation, result)
+// 	}
+// }
