@@ -9,13 +9,13 @@ func main(){
 	fmt.Println("AoC-2025")
 }
 
-func moveForward(initial_digit int,steps int) int{
-	res := (initial_digit + steps)%10;
+func moveForward(initial_digit int,steps int, dial int) int{
+	res := (initial_digit + steps)% dial;
 	return res
 }
 
-func moveBackward(initial_digit int, steps int) int{
-	res := (10 + (initial_digit - steps)) % 10
+func moveBackward(initial_digit int, steps int, dial int) int{
+	res := (dial + (initial_digit - steps)) % dial
 	return res
 }
 
@@ -33,17 +33,28 @@ func getTheInt(input string) int {
 	return  num
 }
 
-func pointAt(position int, input string)int{
+func pointAt(position int, input string, dial int)int{
 	if isForward(getTheFirstCharacter(input)){
-		return moveForward(position,getTheInt(input))
+		return moveForward(position,getTheInt(input), dial)
 	}
-	return moveBackward(position,getTheInt(input))
+	return moveBackward(position,getTheInt(input), dial)
 }
 
-func pointAtAll(inputs []string) int {
-	position := 0
+func pointAtAll(position int, inputs []string, dial int) int {
 	for _, input := range inputs {
-		position = pointAt(position, input)
+		position = pointAt(position, input, dial)
 	}
 	return position
 }
+func countZeroVisits(position int, inputs []string, dial int) int {
+	count := 0
+	for _, input := range inputs {
+		position = pointAt(position, input, dial)
+		if position == 0 {
+			count++
+		}
+	}
+	return count
+}
+
+
