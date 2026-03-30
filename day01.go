@@ -9,9 +9,10 @@ import (
 
 func main(){
 	fmt.Println("AoC-2025")
-	content := readFile("day01.txt")
-    result := countZeroVisits(50, content, 100)
-    fmt.Println(result)
+	// content := readFile("day01.txt")
+    // result := countZeroVisits(50, content, 100)
+    // fmt.Println(result)
+	fmt.Println(countZerosCrossedBackward(0, 5, 100))
 }
 
 func moveForward(position int,steps int, dial int) int{
@@ -64,10 +65,13 @@ func countZeroVisits(position int, inputs []string, dial int) int {
 }
 
 func countZerosCrossedBackward(position int, steps int, dial int) int {
+    if position == 0 {
+        return 0  // already on 0, crossing handled by previous step
+    }
     if steps > position {
         result := (steps - position) / dial + 1
-        if (position - steps + dial) % dial == 0 {
-            result--  // landing exactly on 0 is handled separately
+        if (position-steps+dial)%dial == 0 {
+            result--
         }
         return result
     }
@@ -75,31 +79,42 @@ func countZerosCrossedBackward(position int, steps int, dial int) int {
 }
 
 func countZerosCrossedForward(position int, steps int, dial int) int {
+    if position == 0 {
+        return 0
+    }
     result := (position + steps) / dial
-    if (position + steps) % dial == 0 {
-        result--  // landing exactly on 0 is handled separately
+    if (position+steps)%dial == 0 {
+        result--
     }
     return result
 }
 
-// func countAllCrossedZeros(position int, inputs []string, dial int) int {
-// 	count := 0
-// 	crossed := 0
+func countAllCrossedZeros(position int, inputs []string, dial int) int {
+    count := 0
+    for _, input := range inputs {
+        steps := getTheInt(input)
+        direction := getTheFirstCharacter(input)
 
-// 	for _, input := range inputs{
-// 		steps := getTheInt(input)
-// 		direction := getTheFirstCharacter(input)
+        crossed := 0
+        if isForward(direction) {
+            crossed = countZerosCrossedForward(position, steps, dial)
+        } else {
+            crossed = countZerosCrossedBackward(position, steps, dial)
+        }
 
-// 		if isForward(direction) {
-// 			crossed += countZerosCrossedForward(position, steps, dial)	
-// 		} else {
-// 			crossed += countZerosCrossedBackward(position, steps, dial)
-// 		}
+		// fmt.Println("crossed: ", crossed)
+        count += crossed
 
-// 		position = pointAt(position, input, dial)
-// 	}
-// 	return crossed
-// }
+        position = pointAt(position, input, dial)
+
+        if position == 0 {
+            count++
+        }
+
+        // fmt.Println(input, "→ position:", position, "crossed:", crossed, "landed:", landed, "total:", count)
+    }
+    return count
+}
 
 
 
