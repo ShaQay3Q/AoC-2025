@@ -124,7 +124,7 @@ func TestCountZerosDuringAllMoves(t *testing.T) {
 			start:    50,
 			inputs:   []string{"L68","L30","R48","L5","R60","L55","L1","L99","R14","L82"},
 			dial:     100,
-			expected: 6, // 👈 from problem description
+			expected: 6, // from problem description
 		},
 		{
 			name:     "simple forward crossing",
