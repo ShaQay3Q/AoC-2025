@@ -14,7 +14,7 @@ func main(){
     // fmt.Println(result)
 	fmt.Println(countZerosCrossedBackward(0, 5, 100))
     content := readFile("day01.txt")
-    result := countAllCrossedZeros(50, content, 100)
+    result := countAllZerosCrude(50, content, 100)
     fmt.Println(result)
 }
 
@@ -85,39 +85,53 @@ func countZeroVisits(position int, inputs []string, dial int) int {
 // 	return 1 + (steps-position-1)/dial
 // }
 
-func countZerosCrossedBackward(position int, steps int, dial int) int {
-    if position == 0 {
-        if steps < dial {
-            return 0
-        }
-        result := (steps - dial) / dial + 1
-        if steps%dial == 0 {
-            result--  // landing handled separately
-        }
-        return result
-    }
-    if steps > position {
-        result := (steps - position) / dial + 1
-        if (position-steps+dial)%dial == 0 {
-            result--
-        }
-        return result
-    }
-    return 0
-}
+// func countZerosCrossedBackward(position int, steps int, dial int) int {
+//     if position == 0 {
+//         if steps < dial {
+//             return 0
+//         }
+//         result := (steps - dial) / dial + 1
+//         if steps%dial == 0 {
+//             result--  // landing handled separately
+//         }
+//         return result
+//     }
+//     if steps > position {
+//         result := (steps - position) / dial + 1
+//         if (position-steps+dial)%dial == 0 {
+//             result--
+//         }
+//         return result
+//     }
+//     return 0
+// }
 
+// func countZerosCrossedForward(position int, steps int, dial int) int {
+//     if position == 0 && steps < dial {
+//         return 0
+//     }
+//     result := (position + steps) / dial
+//     if (position+steps)%dial == 0 {
+//         result--
+//     }
+//     return result
+// }
 func countZerosCrossedForward(position int, steps int, dial int) int {
-    if position == 0 && steps < dial {
-        return 0
-    }
-    result := (position + steps) / dial
-    if (position+steps)%dial == 0 {
-        result--
-    }
-    return result
+	return (position + steps) / dial
 }
 
-func countZerosDuringMove(position, steps, dial int, forward bool) int {
+ func countZerosCrossedBackward(position int, steps int, dial int) int {
+	result := (steps - position + dial) / dial
+
+	if steps >= position && (steps-position)%dial == 0 {
+		result--
+	}
+
+	return result
+}
+ 
+
+func countZerosDuringMoveCrude(position, steps, dial int, forward bool) int {
 	count := 0
 
 	for i := 0; i < steps; i++ {
@@ -135,6 +149,39 @@ func countZerosDuringMove(position, steps, dial int, forward bool) int {
 	return count
 }
 
+func countAllZerosCrude(position int, inputs []string, dial int) int {
+	total := 0
+
+	for _, input := range inputs {
+		steps := getTheInt(input)
+		forward := isForward(getTheFirstCharacter(input))
+
+		total += countZerosDuringMoveCrude(position, steps, dial, forward)
+
+		position = pointAt(position, input, dial)
+	}
+
+	return total
+}
+
+func countZerosDuringMove(position, steps, dial int, forward bool) int {
+	count := 0
+
+	for i := 0; i < steps; i++ {
+		if forward {
+			position = countZerosCrossedForward(position,steps, dial)
+		} else {
+			position = countZerosCrossedBackward(position, steps, dial)
+		}
+
+		if position == 0 {
+			count++
+		}
+	}
+
+	return count
+}
+
 func countAllCrossedZeros(position int, inputs []string, dial int) int {
 	count := 0
 
@@ -142,9 +189,13 @@ func countAllCrossedZeros(position int, inputs []string, dial int) int {
 		steps := getTheInt(input)
 		forward := isForward(getTheFirstCharacter(input))
 
-		count += countZerosDuringMove(position, steps, dial, forward)
-
-		position = pointAt(position, input, dial)
+		if forward {
+			count += countZerosCrossedForward(position, steps, dial)
+			position = moveForward(position, steps, dial)
+		} else {
+			count += countZerosCrossedBackward(position, steps, dial)
+			position = moveBackward(position, steps, dial)
+		}
 	}
 
 	return count

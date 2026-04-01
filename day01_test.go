@@ -221,7 +221,9 @@ func TestCountZerosCrossedBackward(t *testing.T){
 		{95, 5, 100, 0},
 		{50, 1000, 100, 10},  
 		{0, 100, 100, 0},  
-		{0, 200, 100, 1},  
+		{0, 200, 100, 1}, 
+		{3, 3, 10, 0}, 
+		{3, 33, 10, 3},
 	}
 	for _, tt := range tests{
 		result := countZerosCrossedBackward(tt.position, tt.steps, tt.dial)
@@ -242,8 +244,8 @@ func TestCountZerosCrossedForward(t *testing.T){
 		{0, 1018, 100, 10},
 		{98, 1018, 100, 11},
 		{50, 1000, 100, 10},
-		{0, 100, 100, 0},  // R100 from 0 → lands on 0, handled by landed check
-		{0, 200, 100, 1},  // R200 from 0 → crosses 0 once during, lands on 0
+		{0, 100, 100, 1},  // R100 from 0 → lands on 0, handled by landed check
+		{0, 200, 100, 2},  // R200 from 0 → crosses 0 once during, lands on 0
 	}
 	for _, tt := range tests{
 		result := countZerosCrossedForward(tt.position, tt.steps, tt.dial)
@@ -266,11 +268,6 @@ func TestCountAllCrossedZeros(t *testing.T){
 		{50, []string{"L68","L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"}, 6, 100},
 	}
 	for _, tt := range tests{
-		// for _, entry := range tt.inputs{
-		// 	if isForward(entry){
-		// 		coun
-		// 	}
-		// }
 		result := countAllCrossedZeros(tt.position, tt.inputs, tt.dial)
 		require.Equal(t, tt.expectation, result)
 	}
